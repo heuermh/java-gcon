@@ -33,4 +33,17 @@
   <artifactId>gcon-basespace</artifactId>
   <name>gcon-basespace</name>
   <description>BaseSpace implementation of the genome connector APIs.</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>illumina</groupId>
+      <artifactId>basespace-sdk</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>

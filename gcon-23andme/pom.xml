@@ -33,4 +33,17 @@
   <artifactId>gcon-23andme</artifactId>
   <name>gcon-23andme</name>
   <description>23andMe implementation of the genome connector APIs.</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.github.heuermh.personalgenome</groupId>
+      <artifactId>personal-genome-client</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>

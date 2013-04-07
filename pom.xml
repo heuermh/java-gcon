@@ -167,6 +167,25 @@
       </resource>
     </resources>
   </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.github.heuermh.personalgenome</groupId>
+        <artifactId>personal-genome-client</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>illumina</groupId>
+        <artifactId>basespace-sdk</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.11</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <reporting>
     <plugins>
       <plugin>
