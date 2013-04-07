@@ -36,6 +36,17 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.github.heuermh.gcon</groupId>
+      <artifactId>gcon-api</artifactId>
+      <scope>compile</scope>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
