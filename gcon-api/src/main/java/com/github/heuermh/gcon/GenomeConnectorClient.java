@@ -54,6 +54,14 @@ public interface GenomeConnectorClient {
     Iterable<GenomeConnectorFile> listFiles(GenomeConnectorDirectory directory);
 
     /**
+     * Return extended metadata for the specified file, if any.
+     *
+     * @param file file, must not be null
+     * @return extended metadata for the specified file, or null if no such metadata exists
+     */
+    GenomeConnectorFileMetadata getMetadata(GenomeConnectorFile file);
+
+    /**
      * Get the specified file and write it to the specified local path.
      *
      * @param file file to get, must not be null
