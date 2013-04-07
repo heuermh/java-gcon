@@ -32,19 +32,19 @@ import java.nio.file.Path;
 public interface GenomeConnectorClient {
 
     /**
-     * List the directories available to this genome connector client.
+     * List the file sets available to this genome connector client.
      *
-     * @return one or more directories available to this genome connector client
+     * @return one or more file sets available to this genome connector client
      */
-    Iterable<GenomeConnectorDirectory> listDirectories();
+    Iterable<GenomeConnectorFileSet> list();
 
     /**
-     * List the files available to this genome connector client under the specified directory.
+     * List the files available to this genome connector client in the specified file set.
      *
-     * @param directory directory, must not be null
-     * @return zero or more files available to this genome connector client under the specified directory
+     * @param fileSet file set, must not be null
+     * @return zero or more files available to this genome connector client in the specified file set
      */
-    Iterable<GenomeConnectorFile> listFiles(GenomeConnectorDirectory directory);
+    Iterable<GenomeConnectorFile> list(GenomeConnectorFileSet fileSet);
 
     /**
      * Return extended metadata for the specified file, if any.

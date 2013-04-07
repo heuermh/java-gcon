@@ -24,8 +24,8 @@
 package com.github.heuermh.gcon;
 
 /**
- * Genome connector directory.
+ * Genome connector file set.
  */
-public interface GenomeConnectorDirectory {
+public interface GenomeConnectorFileSet {
     // empty
 }
