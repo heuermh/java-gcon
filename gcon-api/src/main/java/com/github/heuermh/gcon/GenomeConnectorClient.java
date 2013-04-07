@@ -52,15 +52,7 @@ public interface GenomeConnectorClient {
      * @param file file, must not be null
      * @return extended metadata for the specified file, or null if no such metadata exists
      */
-    GenomeConnectorFileMetadata getMetadata(GenomeConnectorFile file);
-
-    /**
-     * Get the specified file and write it to the specified local path.
-     *
-     * @param file file to get, must not be null
-     * @param path local path to write the specified file to
-     */
-    void getFile(GenomeConnectorFile file, Path path);
+    GenomeConnectorFileMetadata meta(GenomeConnectorFile file);
 
     /**
      * Get the specified file as an input stream.
@@ -68,10 +60,18 @@ public interface GenomeConnectorClient {
      * @param file file to get, must not be null
      * @return the specified file as an input stream
      */
-    InputStream getFileAsStream(GenomeConnectorFile file);
+    InputStream get(GenomeConnectorFile file);
+
+    /**
+     * Get the specified file and write it to the specified local path.
+     *
+     * @param file file to get, must not be null
+     * @param path local path to write the specified file to
+     */
+    void get(GenomeConnectorFile file, Path path);
 
     /**
      * Put the specified file.
      */
-    void putFile();
+    void put();
 }
