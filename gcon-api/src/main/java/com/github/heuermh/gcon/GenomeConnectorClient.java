@@ -24,6 +24,7 @@
 package com.github.heuermh.gcon;
 
 import java.io.InputStream;
+import java.nio.file.Path;
 
 /**
  * Genome connector client.
@@ -53,11 +54,12 @@ public interface GenomeConnectorClient {
     Iterable<GenomeConnectorFile> listFiles(GenomeConnectorDirectory directory);
 
     /**
-     * Get the specified file.
+     * Get the specified file and write it to the specified local path.
      *
      * @param file file to get, must not be null
+     * @param path local path to write the specified file to
      */
-    void getFile(GenomeConnectorFile file);
+    void getFile(GenomeConnectorFile file, Path path);
 
     /**
      * Get the specified file as an input stream.
