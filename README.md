@@ -16,7 +16,8 @@ To build
     $ mvn install
 
 
-Note:  currently java-gcon has dependencies on snapshot versions of two unreleased projects.  Clone the following
+<br/>
+*Note*:  currently java-gcon has dependencies on snapshot versions of two unreleased projects.  Clone the following
 
 https://github.com/heuermh/personal-genome-client
 
