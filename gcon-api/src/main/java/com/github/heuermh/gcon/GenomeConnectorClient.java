@@ -34,16 +34,9 @@ public interface GenomeConnectorClient {
     /**
      * List the directories available to this genome connector client.
      *
-     * @return zero or more directories available to this genome connector client
+     * @return one or more directories available to this genome connector client
      */
     Iterable<GenomeConnectorDirectory> listDirectories();
-
-    /**
-     * List the files available to this genome connector client under the root directory.
-     *
-     * @return zero or more files available to this genome connector client under the root directory
-     */
-    Iterable<GenomeConnectorFile> listFiles();
 
     /**
      * List the files available to this genome connector client under the specified directory.
