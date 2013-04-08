@@ -50,7 +50,7 @@ public interface GenomeConnectorClient {
      * Return extended metadata for the specified file, if any.
      *
      * @param file file, must not be null
-     * @return extended metadata for the specified file, or null if no such metadata exists
+     * @return extended metadata for the specified file, or null if no such metadata exist
      */
     GenomeConnectorFileMetadata meta(GenomeConnectorFile file);
 

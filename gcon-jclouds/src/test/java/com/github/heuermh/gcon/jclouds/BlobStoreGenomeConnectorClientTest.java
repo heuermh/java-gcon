@@ -23,26 +23,41 @@
 */
 package com.github.heuermh.gcon.jclouds;
 
-import com.github.heuermh.gcon.GenomeConnectorFile;
-import com.github.heuermh.gcon.GenomeConnectorFileMetadata;
-import com.github.heuermh.gcon.GenomeConnectorFileSet;
+import static org.junit.Assert.assertNotNull;
 
-import org.jclouds.blobstore.domain.BlobMetadata;
-import org.jclouds.blobstore.domain.StorageMetadata;
+import org.junit.Before;
+import org.junit.Test;
+
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import org.jclouds.blobstore.BlobStoreContext;
 
 /**
- * Static utility methods.
+ * Unit test for BlobStoreGenomeConnectorClient.
  */
-final class BlobStoreUtils {
+public final class BlobStoreGenomeConnectorClientTest {
 
-    static GenomeConnectorFileSet createFileSet(final StorageMetadata storageMetadata) {
-        // creationDate, eTag, lastModified, location, name, providerId, type, uri, userMetadata
-         return new GenomeConnectorFileSet() {};
+    @Mock
+    private BlobStoreContext context;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
     }
 
-    static GenomeConnectorFileMetadata createFileMetadata(final GenomeConnectorFile file, final BlobMetadata blobMetadata) {
-        // container, creationDate, eTag, lastModified, location, providerId, publicUri, type, uri, userMetadata
-        // contentDisposition, contentEncoding, contentLanguage, contentLength, contentMD5, contentType, expires
-        return new GenomeConnectorFileMetadata() {};
+    @Test(expected=NullPointerException.class)
+    public void testConstructorNullContainer() {
+        new BlobStoreGenomeConnectorClient(null, context);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testConstructorNullContext() {
+        new BlobStoreGenomeConnectorClient("container", null);
+    }
+
+    @Test
+    public void testConstructor() {
+        assertNotNull(new BlobStoreGenomeConnectorClient("container", context));
     }
 }

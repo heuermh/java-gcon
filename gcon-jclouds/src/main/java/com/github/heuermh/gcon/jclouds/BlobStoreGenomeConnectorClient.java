@@ -23,6 +23,7 @@
 */
 package com.github.heuermh.gcon.jclouds;
 
+import static com.github.heuermh.gcon.jclouds.BlobStoreUtils.createFileMetadata;
 import static com.github.heuermh.gcon.jclouds.BlobStoreUtils.createFileSet;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.jclouds.blobstore.options.ListContainerOptions.Builder.afterMarker;
@@ -45,6 +46,7 @@ import com.github.heuermh.gcon.GenomeConnectorClient;
 
 import org.jclouds.blobstore.BlobStore;
 import org.jclouds.blobstore.BlobStoreContext;
+import org.jclouds.blobstore.domain.BlobMetadata;
 import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
 
@@ -66,19 +68,19 @@ final class BlobStoreGenomeConnectorClient implements GenomeConnectorClient {
 
     @Override
     public Iterable<GenomeConnectorFileSet> list() {
-        BlobStore blobStore = context.getBlobStore();
-        if (!blobStore.containerExists(container)) {
+        BlobStore store = context.getBlobStore();
+        if (!store.containerExists(container)) {
             return ImmutableList.of();
         }
         List<GenomeConnectorFileSet> fileSets = Lists.newLinkedList();
-        PageSet<? extends StorageMetadata> pageSet = blobStore.list(container);
+        PageSet<? extends StorageMetadata> pageSet = store.list(container);
         for (StorageMetadata storageMetadata : pageSet) {
             fileSets.add(createFileSet(storageMetadata));
         }
 
         String marker = pageSet.getNextMarker();
         while (marker != null) {
-            PageSet<? extends StorageMetadata> additionalPageSet = blobStore.list(container, afterMarker(marker));
+            PageSet<? extends StorageMetadata> additionalPageSet = store.list(container, afterMarker(marker));
             for (StorageMetadata storageMetadata : pageSet) {
                 fileSets.add(createFileSet(storageMetadata));
             }   
@@ -95,7 +97,12 @@ final class BlobStoreGenomeConnectorClient implements GenomeConnectorClient {
     @Override
     public GenomeConnectorFileMetadata meta(final GenomeConnectorFile file) {
         checkNotNull(file);
-        return null;
+        BlobStore store = context.getBlobStore();
+        if (!store.blobExists(container, file.toString())) {
+            return null;
+        }
+        BlobMetadata metadata = store.blobMetadata(container, file.toString());
+        return createFileMetadata(file, metadata);
     }
 
     @Override

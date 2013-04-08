@@ -23,26 +23,25 @@
 */
 package com.github.heuermh.gcon.jclouds;
 
-import com.github.heuermh.gcon.GenomeConnectorFile;
-import com.github.heuermh.gcon.GenomeConnectorFileMetadata;
-import com.github.heuermh.gcon.GenomeConnectorFileSet;
+import static com.github.heuermh.gcon.jclouds.BlobStoreUtils.createFileMetadata;
+import static com.github.heuermh.gcon.jclouds.BlobStoreUtils.createFileSet;
 
-import org.jclouds.blobstore.domain.BlobMetadata;
-import org.jclouds.blobstore.domain.StorageMetadata;
+import static org.junit.Assert.assertNotNull;
+
+import org.junit.Test;
 
 /**
- * Static utility methods.
+ * Unit test for BlobStoreUtils.
  */
-final class BlobStoreUtils {
+public final class BlobStoreUtilsTest {
 
-    static GenomeConnectorFileSet createFileSet(final StorageMetadata storageMetadata) {
-        // creationDate, eTag, lastModified, location, name, providerId, type, uri, userMetadata
-         return new GenomeConnectorFileSet() {};
+    @Test
+    public void testCreateFileSet() {
+        assertNotNull(createFileSet(null));
     }
 
-    static GenomeConnectorFileMetadata createFileMetadata(final GenomeConnectorFile file, final BlobMetadata blobMetadata) {
-        // container, creationDate, eTag, lastModified, location, providerId, publicUri, type, uri, userMetadata
-        // contentDisposition, contentEncoding, contentLanguage, contentLength, contentMD5, contentType, expires
-        return new GenomeConnectorFileMetadata() {};
+    @Test
+    public void testCreateFileMetadata() {
+        assertNotNull(createFileMetadata(null, null));
     }
 }

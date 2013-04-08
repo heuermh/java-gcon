@@ -194,6 +194,11 @@
         <artifactId>jclouds-allblobstore</artifactId>
         <version>1.5.9</version>
       </dependency>
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId> 
+        <version>1.9.5</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <reporting>
