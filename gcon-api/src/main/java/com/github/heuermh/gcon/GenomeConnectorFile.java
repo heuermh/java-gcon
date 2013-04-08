@@ -31,13 +31,11 @@ import java.nio.file.Path;
  * Genome connector file.
  */
 public interface GenomeConnectorFile {
-    // empty
-	
-	
+    
 	/**
      * Get contents of the file as an input stream.
      *
-     * @param file file to get, must not be null
+     * 
      * @return the specified file as an input stream
      */
     InputStream stream();
@@ -45,18 +43,30 @@ public interface GenomeConnectorFile {
     
     /**
      * Get locator for the file content
+     * 
+     * @return a URL to this file
      */
     URL url();
     
     /**
-     * Get the specified file and write it to the specified local path.
+     * Get the contents of this file and write it to the specified local path.
      *
-     * @param file file to get, must not be null
+     * 
      * @param path local path to write the specified file to
      */
     void download(Path path);
 
-
+    /**
+     * If this is a directory, list the files available to this genome connector client in the specified file set.
+     * 
+     * Should return the empty list if this is not a directory.
+     * 
+     *
+     * @param fileSet file set, must not be null
+     * @return files in this directory
+     */
+    Iterable<GenomeConnectorFile> list();
+    
     
     
     

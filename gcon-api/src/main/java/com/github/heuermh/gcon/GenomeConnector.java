@@ -36,4 +36,8 @@ public interface GenomeConnector {
      * @param context context, must not be null
      */
     GenomeConnectorClient createClient(Map<String, String> context);
+    
+    
+    
+    
 }

@@ -23,21 +23,33 @@
 */
 package com.github.heuermh.gcon;
 
-import java.io.InputStream;
-import java.nio.file.Path;
+import java.net.URL;
+
 
 /**
  * Genome connector client.
+ * 
+ * 
  */
 public interface GenomeConnectorClient {
 
     /**
-     * List the file sets available to this genome connector client.
+     * Give the root file of this genome connector
      *
-     * @return one or more file sets available to this genome connector client
+     * @return the root file of the genome connector
      */
-    Iterable<GenomeConnectorFileSet> list();
+    GenomeConnectorFile root();
 
+    
+    /**
+     * Give the GCon file represented by the URL
+     * 
+     * @param url file to fetch
+     * @return GConFile
+     */
+    GenomeConnectorFile file(URL url);
+    
+    
     
     /**
      * Put the specified file.
