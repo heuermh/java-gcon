@@ -242,5 +242,6 @@
     <module>gcon-23andme</module>
     <module>gcon-basespace</module>
     <module>gcon-jclouds</module>
+    <module>gcon-genomespace</module>
   </modules>
 </project>
