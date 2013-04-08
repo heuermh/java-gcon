@@ -28,4 +28,13 @@ package com.github.heuermh.gcon;
  */
 public interface GenomeConnectorFileSet {
     // empty
+	
+	
+	/**
+     * List the files available to this genome connector client in the specified file set.
+     *
+     * @param fileSet file set, must not be null
+     * @return zero or more files available to this genome connector client in the specified file set
+     */
+    Iterable<GenomeConnectorFile> list();
 }

@@ -38,38 +38,7 @@ public interface GenomeConnectorClient {
      */
     Iterable<GenomeConnectorFileSet> list();
 
-    /**
-     * List the files available to this genome connector client in the specified file set.
-     *
-     * @param fileSet file set, must not be null
-     * @return zero or more files available to this genome connector client in the specified file set
-     */
-    Iterable<GenomeConnectorFile> list(GenomeConnectorFileSet fileSet);
-
-    /**
-     * Return extended metadata for the specified file, if any.
-     *
-     * @param file file, must not be null
-     * @return extended metadata for the specified file, or null if no such metadata exists
-     */
-    GenomeConnectorFileMetadata meta(GenomeConnectorFile file);
-
-    /**
-     * Get the specified file as an input stream.
-     *
-     * @param file file to get, must not be null
-     * @return the specified file as an input stream
-     */
-    InputStream get(GenomeConnectorFile file);
-
-    /**
-     * Get the specified file and write it to the specified local path.
-     *
-     * @param file file to get, must not be null
-     * @param path local path to write the specified file to
-     */
-    void get(GenomeConnectorFile file, Path path);
-
+    
     /**
      * Put the specified file.
      */

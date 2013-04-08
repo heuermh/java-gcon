@@ -23,9 +23,50 @@
 */
 package com.github.heuermh.gcon;
 
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Path;
+
 /**
  * Genome connector file.
  */
 public interface GenomeConnectorFile {
     // empty
+	
+	
+	/**
+     * Get contents of the file as an input stream.
+     *
+     * @param file file to get, must not be null
+     * @return the specified file as an input stream
+     */
+    InputStream stream();
+    
+    
+    /**
+     * Get locator for the file content
+     */
+    URL url();
+    
+    /**
+     * Get the specified file and write it to the specified local path.
+     *
+     * @param file file to get, must not be null
+     * @param path local path to write the specified file to
+     */
+    void download(Path path);
+
+
+    
+    
+    
+    /**
+     * Return extended metadata for the specified file, if any.
+     *
+     * @param file file, must not be null
+     * @return extended metadata for the specified file, or null if no such metadata exists
+     */
+    GenomeConnectorFileMetadata meta();
+
+	
 }
