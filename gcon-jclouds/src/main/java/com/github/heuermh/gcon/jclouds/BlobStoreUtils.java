@@ -23,31 +23,17 @@
 */
 package com.github.heuermh.gcon.jclouds;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import com.github.heuermh.gcon.GenomeConnectorFileSet;
 
-import java.util.Map;
-
-import com.github.heuermh.gcon.GenomeConnector;
-import com.github.heuermh.gcon.GenomeConnectorClient;
-
-import org.jclouds.ContextBuilder;
-import org.jclouds.blobstore.BlobStoreContext;
+import org.jclouds.blobstore.domain.StorageMetadata;
 
 /**
- * jclouds BlobStore-based implementation of the genome connector APIs.
+ * Static utility methods.
  */
-final class BlobStoreGenomeConnector implements GenomeConnector {
+final class BlobStoreUtils {
 
-    @Override
-    public GenomeConnectorClient createClient(final Map<String, String> context) {
-        checkNotNull(context);
-
-        String apiKey = "apiKey";
-        String secret = "secret";
-        BlobStoreContext blobStoreContext = ContextBuilder.newBuilder("aws-s3")
-            .credentials(apiKey, secret)
-            .buildView(BlobStoreContext.class);
-
-        return new BlobStoreGenomeConnectorClient("container", blobStoreContext);
+    static GenomeConnectorFileSet createFileSet(final StorageMetadata storageMetadata) {
+        // eTag, lastModified, name, providerId, type, uri, userMetadata, location
+        return new GenomeConnectorFileSet() {};
     }
 }
