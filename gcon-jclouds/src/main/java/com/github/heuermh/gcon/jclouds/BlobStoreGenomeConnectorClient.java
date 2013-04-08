@@ -42,7 +42,6 @@ import com.github.heuermh.gcon.GenomeConnectorClient;
 import com.github.heuermh.gcon.GenomeConnectorFile;
 import com.github.heuermh.gcon.GenomeConnectorFileMetadata;
 import com.github.heuermh.gcon.GenomeConnectorFileSet;
-import com.github.heuermh.gcon.GenomeConnectorClient;
 
 import org.jclouds.blobstore.BlobStore;
 import org.jclouds.blobstore.BlobStoreContext;
@@ -83,7 +82,8 @@ final class BlobStoreGenomeConnectorClient implements GenomeConnectorClient {
             PageSet<? extends StorageMetadata> additionalPageSet = store.list(container, afterMarker(marker));
             for (StorageMetadata storageMetadata : pageSet) {
                 fileSets.add(createFileSet(storageMetadata));
-            }   
+            }
+            marker = additionalPageSet.getNextMarker();
         }
         return fileSets;
     }
