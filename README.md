@@ -7,7 +7,7 @@ Genome connector APIs
 
 Install
 
- * JDK 1.6 or later, http://openjdk.java.net/
+ * JDK 1.7 or later, http://openjdk.java.net/
  * Apache Maven 3.0.5 or later, http://maven.apache.org/
 
 
