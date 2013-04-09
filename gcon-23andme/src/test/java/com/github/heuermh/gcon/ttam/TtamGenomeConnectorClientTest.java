@@ -23,12 +23,20 @@
 */
 package com.github.heuermh.gcon.ttam;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import com.github.heuermh.gcon.AbstractGenomeConnectorClientTest;
 import com.github.heuermh.gcon.GenomeConnectorClient;
 
 import com.github.heuermh.personalgenome.client.PersonalGenomeClient;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.mockito.Mock;
@@ -56,5 +64,33 @@ public final class TtamGenomeConnectorClientTest extends AbstractGenomeConnector
     @Test(expected=NullPointerException.class)
     public void testConstructorNullClient() {
         new TtamGenomeConnectorClient(null);
+    }
+
+    @Test
+    @Ignore // todo:  determine what format to return
+    public void testGet() {
+        InputStream inputStream = null;
+        try {
+            inputStream = client.get("resource");
+            assertNotNull(inputStream);
+        }
+        finally {
+            try {
+                inputStream.close();
+            }
+            catch (Exception e) {
+                // ignore
+            }
+        }
+    }
+
+    @Test
+    public void testGetResourceNotFound() {
+        assertNull(client.get("resource-not-found"));
+    }
+
+    @Test(expected=UnsupportedOperationException.class)
+    public void testPutOperationNotSupported() {
+        client.put("resource", new ByteArrayInputStream(new byte[0]));
     }
 }

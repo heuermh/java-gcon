@@ -48,16 +48,17 @@ public interface GenomeConnectorClient {
      * @return an input stream for the resource represented by the specified name, or <code>null</code>
      *    if no such resource exists
      */
-    InputStream get(String fname);
+    InputStream get(String name);
 
     /**
-     * Stream to a resource represented by the specified name.  The input stream will
+     * Stream to a resource represented by the specified name (operational operation).  The input stream will
      * be closed by this genome connector client.
      *
      * @param name resource name, must not be null
      * @param inputStream input stream, must not be null
+     * @throws UnsupportedOperationException if the put operation is not supported by this genome connector client
      */
-    void put(String fname, InputStream inputStream);
+    void put(String name, InputStream inputStream);
     //void createDirectory(String dirname);
 
 

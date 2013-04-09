@@ -39,6 +39,8 @@ import com.github.heuermh.gcon.GenomeConnectorFileMetadata;
 import com.github.heuermh.gcon.GenomeConnectorFileSet;
 import com.github.heuermh.gcon.GenomeConnectorClient;
 
+import com.github.heuermh.personalgenome.client.Genome;
+import com.github.heuermh.personalgenome.client.Genotype;
 import com.github.heuermh.personalgenome.client.PersonalGenomeClient;
 
 /**
@@ -57,6 +59,14 @@ final class TtamGenomeConnectorClient implements GenomeConnectorClient {
     @Override
     public InputStream get(final String name) {
         checkNotNull(name);
+        // genome/profileId
+        if (!name.startsWith("genome/")) {
+            return null;
+        }
+        String profileId = name.substring(6);
+        Genome genome = client.genome(profileId);
+        Genotype genotype = genome.asGenotype();
+        // todo:  convert to VCF format?  (don't have SNP locations)
         return null;
     }
 
@@ -64,7 +74,7 @@ final class TtamGenomeConnectorClient implements GenomeConnectorClient {
     public void put(final String name, final InputStream inputStream) {
         checkNotNull(name);
         checkNotNull(inputStream);
-        // empty
+        throw new UnsupportedOperationException("put operation not supported");
     }
 
     /*

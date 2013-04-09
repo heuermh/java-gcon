@@ -68,14 +68,14 @@ final class BlobStoreGenomeConnectorClient implements GenomeConnectorClient {
     @Override
     public InputStream get(final String name) {
         checkNotNull(name);
-        return null;
+        return context.createInputStreamMap(container).get(name);
     }
 
     @Override
     public void put(final String name, final InputStream inputStream) {
         checkNotNull(name);
         checkNotNull(inputStream);
-        // empty
+        context.createInputStreamMap(container).put(name, inputStream);
     }
 
     /*

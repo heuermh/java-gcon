@@ -57,14 +57,14 @@ final class BaseSpaceGenomeConnectorClient implements GenomeConnectorClient {
     @Override
     public InputStream get(final String name) {
         checkNotNull(name);
-        return null;
+        return session.getFileInputStream(session.getFile(name));
     }
 
     @Override
     public void put(final String name, final InputStream inputStream) {
         checkNotNull(name);
         checkNotNull(inputStream);
-        // empty
+        // cannot find BaseSpace upload APIs in java sdk
     }
 
     /*

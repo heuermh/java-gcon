@@ -23,12 +23,23 @@
 */
 package com.github.heuermh.gcon.basespace;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import com.github.heuermh.gcon.AbstractGenomeConnectorClientTest;
 import com.github.heuermh.gcon.GenomeConnectorClient;
 
 import com.illumina.basespace.BaseSpaceSession;
+import com.illumina.basespace.File;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.mockito.Mock;
@@ -56,5 +67,65 @@ public final class BaseSpaceGenomeConnectorClientTest extends AbstractGenomeConn
     @Test(expected=NullPointerException.class)
     public void testConstructorNullSession() {
         new BaseSpaceGenomeConnectorClient(null);
+    }
+
+    @Test
+    public void testGet() {
+        File file = new File();
+        when(session.getFile(eq("resource"))).thenReturn(file);
+        when(session.getFileInputStream(eq(file))).thenReturn(new ByteArrayInputStream(new byte[0]));
+
+        InputStream inputStream = null;
+        try {
+            inputStream = client.get("resource");
+            assertNotNull(inputStream);
+        }
+        finally {
+            try {
+                inputStream.close();
+            }
+            catch (Exception e) {
+                // ignore
+            }
+        }
+    }
+
+    @Test
+    public void testGetResourceNotFound() {
+        // todo:  confirm that null reponse is ok for these
+        when(session.getFile(eq("resource"))).thenReturn(null);
+        when(session.getFileInputStream(null)).thenReturn(null);
+        assertNull(client.get("resource-not-found"));
+    }
+
+    @Test
+    @Ignore // todo:  not supported until put method is implemented
+    public void testPut() {
+        client.put("resource", new ByteArrayInputStream(new byte[0]));
+    }
+
+    @Test
+    @Ignore // todo:  not supported until put method is implemented
+    public void testPutGetRoundTrip() throws Exception {
+        byte[] bytes = new byte[1];
+        bytes[0] = 42;
+
+        client.put("resource", new ByteArrayInputStream(bytes));
+        InputStream inputStream = null;
+        try {
+            inputStream = client.get("resource");
+            assertNotNull(inputStream);
+
+            inputStream.read(bytes, 0, 1);
+            assertEquals(42, bytes[0]);
+        }
+        finally {
+            try {
+                inputStream.close();
+            }
+            catch (Exception e) {
+                // ignore
+            }
+        }        
     }
 }

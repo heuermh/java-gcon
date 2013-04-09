@@ -28,11 +28,16 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
@@ -52,6 +57,7 @@ import org.mockito.stubbing.Answer;
 
 import org.jclouds.blobstore.BlobStore;
 import org.jclouds.blobstore.BlobStoreContext;
+import org.jclouds.blobstore.InputStreamMap;
 import org.jclouds.blobstore.domain.BlobMetadata;
 import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
@@ -72,6 +78,8 @@ public final class BlobStoreGenomeConnectorClientTest extends AbstractGenomeConn
     private BlobStore blobStore;
     @Mock
     private BlobStoreContext context;
+    @Mock
+    private InputStreamMap inputStreamMap;
     @Mock
     private Location location;
 
@@ -94,6 +102,106 @@ public final class BlobStoreGenomeConnectorClientTest extends AbstractGenomeConn
     @Test(expected=NullPointerException.class)
     public void testConstructorNullContext() {
         new BlobStoreGenomeConnectorClient("container", null);
+    }
+
+    @Test
+    public void testGet() {
+        when(context.createInputStreamMap(eq("container"))).thenReturn(inputStreamMap);
+        when(inputStreamMap.get(eq("resource"))).thenReturn(new ByteArrayInputStream(new byte[0]));
+
+        InputStream inputStream = null;
+        try {
+            inputStream = client.get("resource");
+            assertNotNull(inputStream);
+        }
+        finally {
+            try {
+                inputStream.close();
+            }
+            catch (Exception e) {
+                // ignore
+            }
+        }
+    }
+
+    @Test
+    public void testGetResourceNotFound() {
+        when(context.createInputStreamMap(eq("container"))).thenReturn(inputStreamMap);
+        assertNull(client.get("resource-not-found"));
+    }
+
+    @Test
+    public void testPut() {
+        when(context.createInputStreamMap(eq("container"))).thenReturn(inputStreamMap);
+        client.put("resource", new ByteArrayInputStream(new byte[0]));
+    }
+
+    @Test
+    public void testPutGetRoundTrip() throws Exception {
+        InputStreamMap testInputStreamMap = new TestInputStreamMap();
+        when(context.createInputStreamMap(eq("container"))).thenReturn(testInputStreamMap);
+
+        byte[] bytes = new byte[1];
+        bytes[0] = 42;
+
+        client.put("resource", new ByteArrayInputStream(bytes));
+        InputStream inputStream = null;
+        try {
+            inputStream = client.get("resource");
+            assertNotNull(inputStream);
+
+            inputStream.read(bytes, 0, 1);
+            assertEquals(42, bytes[0]);
+        }
+        finally {
+            try {
+                inputStream.close();
+            }
+            catch (Exception e) {
+                // ignore
+            }
+        }        
+    }
+
+    /**
+     * Test implementation of InputStreamMap.
+     */
+    private static class TestInputStreamMap extends HashMap<String, InputStream> implements InputStreamMap {
+
+        @Override
+        public Iterable<? extends StorageMetadata> list() {
+            return null;
+        }
+
+        @Override
+        public InputStream putString(final String key, final String value) {
+            return null;
+        }
+
+        @Override
+        public InputStream putFile(final String key, final File value) {
+            return null;
+        }
+
+        @Override
+        public InputStream putBytes(final String key, final byte[] value) {
+            return null;
+        }
+
+        @Override
+        public void putAllStrings(final Map<? extends String, ? extends String> map) {
+            // empty
+        }
+
+        @Override
+        public void putAllBytes(final Map<? extends String, ? extends byte[]> map) {
+            // empty
+        }
+
+        @Override
+        public void putAllFiles(final Map<? extends String, ? extends File> map) {
+            // empty
+        }
     }
 
     /*
