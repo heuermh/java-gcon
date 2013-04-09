@@ -31,12 +31,44 @@ import java.nio.file.Path;
  */
 public interface GenomeConnectorClient {
 
+    // simplified APIs
+
+    //Map<String, Map<String, String>> listFiles();
+    //Map<String, Map<String, String>> listDirectories();
+    //Map<String, Map<String, String>> listFiles(String fname);
+    //Map<String, Map<String, String>> listDirectories(String dirname);
+    //Map<String, String> meta(String fname);
+
+    /**
+     * Stream the resource represented by the specified name, or return <code>null</code>
+     * if no such resource exists.  The input stream returned by this method should be
+     * closed by the caller.
+     *
+     * @param name resource name, must not be null
+     * @return an input stream for the resource represented by the specified name, or <code>null</code>
+     *    if no such resource exists
+     */
+    InputStream get(String fname);
+
+    /**
+     * Stream to a resource represented by the specified name.  The input stream will
+     * be closed by this genome connector client.
+     *
+     * @param name resource name, must not be null
+     * @param inputStream input stream, must not be null
+     */
+    void put(String fname, InputStream inputStream);
+    //void createDirectory(String dirname);
+
+
+    // rich APIs
+
     /**
      * List the file sets available to this genome connector client.
      *
      * @return one or more file sets available to this genome connector client
      */
-    Iterable<GenomeConnectorFileSet> list();
+    //Iterable<GenomeConnectorFileSet> list();
 
     /**
      * List the files available to this genome connector client in the specified file set.
@@ -44,7 +76,7 @@ public interface GenomeConnectorClient {
      * @param fileSet file set, must not be null
      * @return zero or more files available to this genome connector client in the specified file set
      */
-    Iterable<GenomeConnectorFile> list(GenomeConnectorFileSet fileSet);
+    //Iterable<GenomeConnectorFile> list(GenomeConnectorFileSet fileSet);
 
     /**
      * Return extended metadata for the specified file, if any.
@@ -52,7 +84,7 @@ public interface GenomeConnectorClient {
      * @param file file, must not be null
      * @return extended metadata for the specified file, or null if no such metadata exist
      */
-    GenomeConnectorFileMetadata meta(GenomeConnectorFile file);
+    //GenomeConnectorFileMetadata meta(GenomeConnectorFile file);
 
     /**
      * Get the specified file as an input stream.
@@ -60,7 +92,7 @@ public interface GenomeConnectorClient {
      * @param file file to get, must not be null
      * @return the specified file as an input stream
      */
-    InputStream get(GenomeConnectorFile file);
+    //InputStream get(GenomeConnectorFile file);
 
     /**
      * Get the specified file and write it to the specified local path.
@@ -68,10 +100,10 @@ public interface GenomeConnectorClient {
      * @param file file to get, must not be null
      * @param path local path to write the specified file to
      */
-    void get(GenomeConnectorFile file, Path path);
+    //void get(GenomeConnectorFile file, Path path);
 
     /**
      * Put the specified file.
      */
-    void put();
+    //void put();
 }

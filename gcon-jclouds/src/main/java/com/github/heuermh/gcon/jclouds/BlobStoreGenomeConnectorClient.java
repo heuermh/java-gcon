@@ -66,6 +66,20 @@ final class BlobStoreGenomeConnectorClient implements GenomeConnectorClient {
 
 
     @Override
+    public InputStream get(final String name) {
+        checkNotNull(name);
+        return null;
+    }
+
+    @Override
+    public void put(final String name, final InputStream inputStream) {
+        checkNotNull(name);
+        checkNotNull(inputStream);
+        // empty
+    }
+
+    /*
+    @Override
     public Iterable<GenomeConnectorFileSet> list() {
         BlobStore store = context.getBlobStore();
         if (!store.containerExists(container)) {
@@ -141,4 +155,5 @@ final class BlobStoreGenomeConnectorClient implements GenomeConnectorClient {
     @Override
     public void put() {
     }
+    */
 }
