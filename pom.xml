@@ -68,7 +68,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.0</version>
+          <version>3.1</version>
           <configuration>
             <source>${jdk.version}</source>
             <target>${jdk.version}</target>
@@ -98,12 +98,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-release-plugin</artifactId>
-          <version>2.3.2</version>
-            <configuration>
-            <mavenExecutorId>forked-path</mavenExecutorId>
-            <useReleaseProfile>false</useReleaseProfile>
-            <arguments>-Psonatype-oss-release</arguments>
-          </configuration>
+          <version>2.4.1</version>
         </plugin>
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
@@ -177,7 +172,7 @@
       <dependency>
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
-        <version>14.0</version>
+        <version>14.0.1</version>
       </dependency>
       <dependency>
         <groupId>illumina</groupId>
