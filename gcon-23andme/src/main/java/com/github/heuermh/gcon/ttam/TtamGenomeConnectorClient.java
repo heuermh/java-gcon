@@ -67,6 +67,7 @@ final class TtamGenomeConnectorClient implements GenomeConnectorClient {
         Genome genome = client.genome(profileId);
         Genotype genotype = genome.asGenotype();
         // todo:  convert to VCF format?  (don't have SNP locations)
+        //    use file extension to determine format?
         return null;
     }
 
