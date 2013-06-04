@@ -91,6 +91,16 @@ final class BaseSpaceGenomeConnector implements GenomeConnector {
                 public String getClientSecret() {
                     return "client secret"; // Our client secret from My Apps
                 }
+
+                @Override
+                public int getReadTimeout() {
+                    return -1;
+                }
+
+                @Override
+                public int getConnectionTimeout() {
+                    return -1;
+                }
             };
 
         BaseSpaceSession session = BaseSpaceSessionManager.instance().requestSession(config);
