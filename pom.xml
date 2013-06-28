@@ -97,6 +97,10 @@
           <version>2.4</version>
         </plugin>
         <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>2.9.1</version>
+        </plugin>
+        <plugin>
           <artifactId>maven-release-plugin</artifactId>
           <version>2.4.1</version>
         </plugin>
@@ -114,7 +118,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.14.1</version>
+          <version>2.15</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -192,7 +196,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-        <version>2.9</version>
+        <version>2.9.1</version>
         <configuration>
           <detectLinks>true</detectLinks>
           <quiet>true</quiet>
