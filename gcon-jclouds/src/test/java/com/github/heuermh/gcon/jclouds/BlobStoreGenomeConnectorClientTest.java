@@ -194,7 +194,7 @@ public final class BlobStoreGenomeConnectorClientTest extends AbstractGenomeConn
         }
 
         @Override
-        public void putAllBytes(final Map<? extends String, ? extends byte[]> map) {
+        public void putAllBytes(final Map<? extends String, byte[]> map) {
             // empty
         }
 
