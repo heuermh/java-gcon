@@ -28,9 +28,9 @@ import java.util.Map;
 import com.github.heuermh.gcon.GenomeConnector;
 import com.github.heuermh.gcon.GenomeConnectorClient;
 
-import com.illumina.basespace.BaseSpaceConfiguration;
-import com.illumina.basespace.BaseSpaceSession;
-import com.illumina.basespace.BaseSpaceSessionManager;
+import com.illumina.basespace.ApiConfiguration;
+import com.illumina.basespace.ApiClient;
+import com.illumina.basespace.ApiClientManager;
 
 /**
  * BaseSpace implementation of the genome connector APIs.
@@ -39,7 +39,7 @@ final class BaseSpaceGenomeConnector implements GenomeConnector {
 
     @Override
     public final GenomeConnectorClient createClient(final Map<String, String> context) {
-        BaseSpaceConfiguration config = new BaseSpaceConfiguration() {
+        ApiConfiguration config = new ApiConfiguration() {
                 // todo:  use values from context
 
                 @Override
@@ -50,6 +50,11 @@ final class BaseSpaceGenomeConnector implements GenomeConnector {
                 @Override
                 public String getApiRootUri() {
                     return "https://api.basespace.illumina.com"; // The API server's URI
+                }
+
+                @Override
+                public String getStoreRootUri() {
+                    return "";
                 }
 
                 @Override
@@ -103,7 +108,7 @@ final class BaseSpaceGenomeConnector implements GenomeConnector {
                 }
             };
 
-        BaseSpaceSession session = BaseSpaceSessionManager.instance().requestSession(config);
-        return new BaseSpaceGenomeConnectorClient(session);
+        ApiClient apiClient = ApiClientManager.instance().createClient(config);
+        return new BaseSpaceGenomeConnectorClient(apiClient);
     }
 }

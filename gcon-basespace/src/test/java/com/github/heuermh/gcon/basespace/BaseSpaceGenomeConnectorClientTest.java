@@ -35,8 +35,11 @@ import java.io.InputStream;
 import com.github.heuermh.gcon.AbstractGenomeConnectorClientTest;
 import com.github.heuermh.gcon.GenomeConnectorClient;
 
-import com.illumina.basespace.BaseSpaceSession;
-import com.illumina.basespace.File;
+import com.illumina.basespace.ApiClient;
+
+import com.illumina.basespace.entity.File;
+
+import com.illumina.basespace.response.GetFileResponse;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -51,11 +54,16 @@ import org.mockito.MockitoAnnotations;
 public final class BaseSpaceGenomeConnectorClientTest extends AbstractGenomeConnectorClientTest {
 
     @Mock
-    private BaseSpaceSession session;
+    private ApiClient apiClient;
+    @Mock
+    private GetFileResponse getFileResponse;
+    @Mock
+    private File file;
+
 
     @Override
     protected GenomeConnectorClient createClient() {
-        return new BaseSpaceGenomeConnectorClient(session);
+        return new BaseSpaceGenomeConnectorClient(apiClient);
     }
 
     @Before
@@ -70,10 +78,10 @@ public final class BaseSpaceGenomeConnectorClientTest extends AbstractGenomeConn
     }
 
     @Test
-    public void testGet() {
-        File file = new File();
-        when(session.getFile(eq("resource"))).thenReturn(file);
-        when(session.getFileInputStream(eq(file))).thenReturn(new ByteArrayInputStream(new byte[0]));
+    public void testGet() throws Exception {
+        when(apiClient.getFile(eq("resource"))).thenReturn(getFileResponse);
+        when(getFileResponse.get()).thenReturn(file);
+        when(apiClient.getFileInputStream(eq(file))).thenReturn(new ByteArrayInputStream(new byte[0]));
 
         InputStream inputStream = null;
         try {
@@ -91,10 +99,10 @@ public final class BaseSpaceGenomeConnectorClientTest extends AbstractGenomeConn
     }
 
     @Test
-    public void testGetResourceNotFound() {
+    public void testGetResourceNotFound() throws Exception {
         // todo:  confirm that null reponse is ok for these
-        when(session.getFile(eq("resource"))).thenReturn(null);
-        when(session.getFileInputStream(null)).thenReturn(null);
+        when(apiClient.getFile(eq("resource"))).thenReturn(null);
+        when(apiClient.getFileInputStream(null)).thenReturn(null);
         assertNull(client.get("resource-not-found"));
     }
 

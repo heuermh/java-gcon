@@ -54,7 +54,7 @@ public abstract class AbstractGenomeConnectorClientTest {
     }
 
     @Test(expected=NullPointerException.class)
-    public void testGetNullName() {
+    public void testGetNullName() throws Exception {
         client.get(null);
     }
 

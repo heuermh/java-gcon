@@ -68,7 +68,7 @@ public final class TtamGenomeConnectorClientTest extends AbstractGenomeConnector
 
     @Test
     @Ignore // todo:  determine what format to return
-    public void testGet() {
+    public void testGet() throws Exception {
         InputStream inputStream = null;
         try {
             inputStream = client.get("resource");
@@ -85,7 +85,7 @@ public final class TtamGenomeConnectorClientTest extends AbstractGenomeConnector
     }
 
     @Test
-    public void testGetResourceNotFound() {
+    public void testGetResourceNotFound() throws Exception {
         assertNull(client.get("resource-not-found"));
     }
 

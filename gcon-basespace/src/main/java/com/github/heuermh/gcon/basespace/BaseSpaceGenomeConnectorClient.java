@@ -39,25 +39,34 @@ import com.github.heuermh.gcon.GenomeConnectorFileMetadata;
 import com.github.heuermh.gcon.GenomeConnectorFileSet;
 import com.github.heuermh.gcon.GenomeConnectorClient;
 
-import com.illumina.basespace.BaseSpaceSession;
+import com.illumina.basespace.ApiClient;
+
+import com.illumina.basespace.entity.File;
+
+import com.illumina.basespace.response.GetFileResponse;
 
 /**
  * BaseSpace implementation of a genome connector client.
  */
 final class BaseSpaceGenomeConnectorClient implements GenomeConnectorClient {
-    private final BaseSpaceSession session;
+    private final ApiClient client;
 
     //@Inject
-    BaseSpaceGenomeConnectorClient(final BaseSpaceSession session) {
-        checkNotNull(session);
-        this.session = session;
+    BaseSpaceGenomeConnectorClient(final ApiClient client) {
+        checkNotNull(client);
+        this.client = client;
     }
 
 
     @Override
     public InputStream get(final String name) {
         checkNotNull(name);
-        return session.getFileInputStream(session.getFile(name));
+        GetFileResponse getFileResponse = client.getFile(name);
+        if (getFileResponse == null) {
+            return null;
+        }
+        File file = getFileResponse.get();
+        return client.getFileInputStream(file);
     }
 
     @Override
@@ -90,7 +99,7 @@ final class BaseSpaceGenomeConnectorClient implements GenomeConnectorClient {
         checkNotNull(file);
 
         // todo: getFile is keyed by id, not uri
-        return session.getFileInputStream(session.getFile(file.toString()));
+        return client.getFileInputStream(client.getFile(file.toString()));
     }
 
     @Override

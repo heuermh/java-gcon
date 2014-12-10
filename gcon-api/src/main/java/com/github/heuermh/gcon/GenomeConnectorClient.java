@@ -24,6 +24,8 @@
 package com.github.heuermh.gcon;
 
 import java.io.InputStream;
+import java.io.IOException;
+
 import java.nio.file.Path;
 
 /**
@@ -47,8 +49,9 @@ public interface GenomeConnectorClient {
      * @param name resource name, must not be null
      * @return an input stream for the resource represented by the specified name, or <code>null</code>
      *    if no such resource exists
+     * @throws IOException if an I/O error occurs
      */
-    InputStream get(String name);
+    InputStream get(String name) throws IOException;
 
     /**
      * Stream to a resource represented by the specified name (operational operation).  The input stream will

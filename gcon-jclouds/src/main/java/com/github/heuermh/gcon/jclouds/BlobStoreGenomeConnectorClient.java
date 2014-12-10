@@ -43,8 +43,10 @@ import com.github.heuermh.gcon.GenomeConnectorFile;
 import com.github.heuermh.gcon.GenomeConnectorFileMetadata;
 import com.github.heuermh.gcon.GenomeConnectorFileSet;
 
+import org.jclouds.io.Payload;
 import org.jclouds.blobstore.BlobStore;
 import org.jclouds.blobstore.BlobStoreContext;
+import org.jclouds.blobstore.domain.Blob;
 import org.jclouds.blobstore.domain.BlobMetadata;
 import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
@@ -66,16 +68,24 @@ final class BlobStoreGenomeConnectorClient implements GenomeConnectorClient {
 
 
     @Override
-    public InputStream get(final String name) {
+    public InputStream get(final String name) throws IOException {
         checkNotNull(name);
-        return context.createInputStreamMap(container).get(name);
+        BlobStore blobStore = context.getBlobStore();
+        Blob blob = blobStore.getBlob(container, name);
+        if (blob == null) {
+            return null;
+        }
+        Payload payload = blob.getPayload();
+        return payload.openStream();
     }
 
     @Override
     public void put(final String name, final InputStream inputStream) {
         checkNotNull(name);
         checkNotNull(inputStream);
-        context.createInputStreamMap(container).put(name, inputStream);
+        BlobStore blobStore = context.getBlobStore();
+        Blob blob = blobStore.blobBuilder(name).payload(inputStream).build();
+        blobStore.putBlob(container, blob);
     }
 
     /*

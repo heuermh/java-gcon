@@ -34,6 +34,8 @@ import static org.mockito.Mockito.when;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.io.IOException;
+
 import java.net.URI;
 import java.util.Collections;
 import java.util.Date;
@@ -57,7 +59,8 @@ import org.mockito.stubbing.Answer;
 
 import org.jclouds.blobstore.BlobStore;
 import org.jclouds.blobstore.BlobStoreContext;
-import org.jclouds.blobstore.InputStreamMap;
+import org.jclouds.blobstore.domain.Blob;
+import org.jclouds.blobstore.domain.BlobBuilder;
 import org.jclouds.blobstore.domain.BlobMetadata;
 import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
@@ -66,6 +69,7 @@ import org.jclouds.blobstore.domain.internal.PageSetImpl;
 import org.jclouds.blobstore.domain.internal.StorageMetadataImpl;
 import org.jclouds.blobstore.options.ListContainerOptions;
 import org.jclouds.domain.Location;
+import org.jclouds.io.Payload;
 
 /**
  * Unit test for BlobStoreGenomeConnectorClient.
@@ -75,13 +79,17 @@ public final class BlobStoreGenomeConnectorClientTest extends AbstractGenomeConn
     @Mock
     private BlobMetadata blobMetadata;
     @Mock
+    private Blob blob;
+    @Mock
+    private Payload payload;
+    @Mock
+    private BlobBuilder blobBuilder;
+    @Mock
+    private BlobBuilder.PayloadBlobBuilder payloadBlobBuilder;
+    @Mock
     private BlobStore blobStore;
     @Mock
     private BlobStoreContext context;
-    @Mock
-    private InputStreamMap inputStreamMap;
-    @Mock
-    private Location location;
 
     @Override
     protected GenomeConnectorClient createClient() {
@@ -105,9 +113,11 @@ public final class BlobStoreGenomeConnectorClientTest extends AbstractGenomeConn
     }
 
     @Test
-    public void testGet() {
-        when(context.createInputStreamMap(eq("container"))).thenReturn(inputStreamMap);
-        when(inputStreamMap.get(eq("resource"))).thenReturn(new ByteArrayInputStream(new byte[0]));
+    public void testGet() throws Exception {
+        when(context.getBlobStore()).thenReturn(blobStore);
+        when(blobStore.getBlob(eq("container"), eq("resource"))).thenReturn(blob);
+        when(blob.getPayload()).thenReturn(payload);
+        when(payload.openStream()).thenReturn(new ByteArrayInputStream(new byte[0]));
 
         InputStream inputStream = null;
         try {
@@ -124,25 +134,44 @@ public final class BlobStoreGenomeConnectorClientTest extends AbstractGenomeConn
         }
     }
 
+    @Test(expected=IOException.class)
+    public void testGetIOException() throws Exception {
+        when(context.getBlobStore()).thenReturn(blobStore);
+        when(blobStore.getBlob(eq("container"), eq("resource"))).thenReturn(blob);
+        when(blob.getPayload()).thenReturn(payload);
+        when(payload.openStream()).thenThrow(new IOException());
+        client.get("resource");
+    }
+
     @Test
-    public void testGetResourceNotFound() {
-        when(context.createInputStreamMap(eq("container"))).thenReturn(inputStreamMap);
+    public void testGetResourceNotFound() throws Exception {
+        when(context.getBlobStore()).thenReturn(blobStore);
+        when(blobStore.getBlob(eq("container"), eq("resource-not-found"))).thenReturn(null);
         assertNull(client.get("resource-not-found"));
     }
 
     @Test
     public void testPut() {
-        when(context.createInputStreamMap(eq("container"))).thenReturn(inputStreamMap);
+        when(context.getBlobStore()).thenReturn(blobStore);
+        when(blobStore.blobBuilder(eq("resource"))).thenReturn(blobBuilder);
+        when(blobBuilder.payload(any(InputStream.class))).thenReturn(payloadBlobBuilder);
+        when(payloadBlobBuilder.build()).thenReturn(blob);
         client.put("resource", new ByteArrayInputStream(new byte[0]));
     }
 
     @Test
     public void testPutGetRoundTrip() throws Exception {
-        InputStreamMap testInputStreamMap = new TestInputStreamMap();
-        when(context.createInputStreamMap(eq("container"))).thenReturn(testInputStreamMap);
-
         byte[] bytes = new byte[1];
         bytes[0] = 42;
+
+        when(context.getBlobStore()).thenReturn(blobStore);
+        when(blobStore.blobBuilder(eq("resource"))).thenReturn(blobBuilder);
+        when(blobBuilder.payload(any(InputStream.class))).thenReturn(payloadBlobBuilder);
+        when(payloadBlobBuilder.build()).thenReturn(blob);
+
+        when(blobStore.getBlob("container", "resource")).thenReturn(blob);
+        when(blob.getPayload()).thenReturn(payload);
+        when(payload.openStream()).thenReturn(new ByteArrayInputStream(bytes));
 
         client.put("resource", new ByteArrayInputStream(bytes));
         InputStream inputStream = null;
@@ -161,47 +190,6 @@ public final class BlobStoreGenomeConnectorClientTest extends AbstractGenomeConn
                 // ignore
             }
         }        
-    }
-
-    /**
-     * Test implementation of InputStreamMap.
-     */
-    private static class TestInputStreamMap extends HashMap<String, InputStream> implements InputStreamMap {
-
-        @Override
-        public Iterable<? extends StorageMetadata> list() {
-            return null;
-        }
-
-        @Override
-        public InputStream putString(final String key, final String value) {
-            return null;
-        }
-
-        @Override
-        public InputStream putFile(final String key, final File value) {
-            return null;
-        }
-
-        @Override
-        public InputStream putBytes(final String key, final byte[] value) {
-            return null;
-        }
-
-        @Override
-        public void putAllStrings(final Map<? extends String, ? extends String> map) {
-            // empty
-        }
-
-        @Override
-        public void putAllBytes(final Map<? extends String, byte[]> map) {
-            // empty
-        }
-
-        @Override
-        public void putAllFiles(final Map<? extends String, ? extends File> map) {
-            // empty
-        }
     }
 
     /*
