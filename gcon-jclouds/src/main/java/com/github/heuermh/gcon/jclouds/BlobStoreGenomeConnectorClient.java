@@ -1,7 +1,7 @@
 /*
 
     java-gcon  Genome connector APIs.
-    Copyright (c) 2013 held jointly by the individual authors.
+    Copyright (c) 2013-2015 held jointly by the individual authors.
 
     This library is free software; you can redistribute it and/or modify it
     under the terms of the GNU Lesser General Public License as published
@@ -25,17 +25,22 @@ package com.github.heuermh.gcon.jclouds;
 
 import static com.github.heuermh.gcon.jclouds.BlobStoreUtils.createFileMetadata;
 import static com.github.heuermh.gcon.jclouds.BlobStoreUtils.createFileSet;
+
 import static com.google.common.base.Preconditions.checkNotNull;
+
 import static org.jclouds.blobstore.options.ListContainerOptions.Builder.afterMarker;
 
 import java.io.InputStream;
 import java.io.IOException;
+
 import java.nio.file.Path;
+
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.ImmutableList;
+
 import com.google.common.io.Files;
 
 import com.github.heuermh.gcon.GenomeConnectorClient;
@@ -44,8 +49,10 @@ import com.github.heuermh.gcon.GenomeConnectorFileMetadata;
 import com.github.heuermh.gcon.GenomeConnectorFileSet;
 
 import org.jclouds.io.Payload;
+
 import org.jclouds.blobstore.BlobStore;
 import org.jclouds.blobstore.BlobStoreContext;
+
 import org.jclouds.blobstore.domain.Blob;
 import org.jclouds.blobstore.domain.BlobMetadata;
 import org.jclouds.blobstore.domain.PageSet;

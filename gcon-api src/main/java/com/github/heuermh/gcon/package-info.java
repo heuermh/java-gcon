@@ -21,24 +21,8 @@
     > http://www.opensource.org/licenses/lgpl-license.php
 
 */
-package com.github.heuermh.gcon.jclouds;
-
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
 
 /**
- * Unit test for BlobStoreGenomeConnector.
+ * Genome connector APIs.
  */
-public final class BlobStoreGenomeConnectorTest {
-
-    @Test
-    public void testConstructor() {
-        assertNotNull(new BlobStoreGenomeConnector());
-    }
-
-    @Test(expected=NullPointerException.class)
-    public void testCreateClientNullContext() {
-        new BlobStoreGenomeConnector().createClient(null);
-    }
-}
+package com.github.heuermh.gcon;

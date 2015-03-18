@@ -21,24 +21,50 @@
     > http://www.opensource.org/licenses/lgpl-license.php
 
 */
-package com.github.heuermh.gcon.jclouds;
+package com.github.heuermh.gcon;
 
 import static org.junit.Assert.assertNotNull;
 
+import java.io.ByteArrayInputStream;
+
+import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Unit test for BlobStoreGenomeConnector.
+ * Abstract unit test for implementations of GenomeConnectorClient.
  */
-public final class BlobStoreGenomeConnectorTest {
+public abstract class AbstractGenomeConnectorClientTest {
+    protected GenomeConnectorClient client;
+
+    /**
+     * Create and return a new instance of an implementation of GenomeConnectorClient to test.
+     *
+     * @return a new instance of an implementation of GenomeConnectorClient to test
+     */
+    protected abstract GenomeConnectorClient createClient();
+
+    @Before
+    public void setUp() {
+        client = createClient();
+    }
 
     @Test
-    public void testConstructor() {
-        assertNotNull(new BlobStoreGenomeConnector());
+    public void testCreateClient() {
+        assertNotNull(client);
     }
 
     @Test(expected=NullPointerException.class)
-    public void testCreateClientNullContext() {
-        new BlobStoreGenomeConnector().createClient(null);
+    public void testGetNullName() throws Exception {
+        client.get(null);
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testPutNullName() {
+        client.put(null, new ByteArrayInputStream(new byte[0]));
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testPutNullInputStream() {
+        client.put("name", null);
     }
 }

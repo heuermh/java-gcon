@@ -1,7 +1,7 @@
 /*
 
     java-gcon  Genome connector APIs.
-    Copyright (c) 2013 held jointly by the individual authors.
+    Copyright (c) 2013-2015 held jointly by the individual authors.
 
     This library is free software; you can redistribute it and/or modify it
     under the terms of the GNU Lesser General Public License as published
@@ -26,6 +26,7 @@ package com.github.heuermh.gcon.jclouds;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
+
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
@@ -37,6 +38,7 @@ import java.io.InputStream;
 import java.io.IOException;
 
 import java.net.URI;
+
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,21 +56,28 @@ import org.junit.Test;
 
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
 import org.mockito.invocation.InvocationOnMock;
+
 import org.mockito.stubbing.Answer;
 
 import org.jclouds.blobstore.BlobStore;
 import org.jclouds.blobstore.BlobStoreContext;
+
 import org.jclouds.blobstore.domain.Blob;
 import org.jclouds.blobstore.domain.BlobBuilder;
 import org.jclouds.blobstore.domain.BlobMetadata;
 import org.jclouds.blobstore.domain.PageSet;
 import org.jclouds.blobstore.domain.StorageMetadata;
 import org.jclouds.blobstore.domain.StorageType;
+
 import org.jclouds.blobstore.domain.internal.PageSetImpl;
 import org.jclouds.blobstore.domain.internal.StorageMetadataImpl;
+
 import org.jclouds.blobstore.options.ListContainerOptions;
+
 import org.jclouds.domain.Location;
+
 import org.jclouds.io.Payload;
 
 /**
