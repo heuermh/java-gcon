@@ -59,10 +59,11 @@
   </developers>
 
   <modules>
-    <module>gcon-api</module>
-    <module>gcon-23andme</module>
-    <module>gcon-basespace</module>
-    <module>gcon-jclouds</module>
+    <module>api</module>
+    <module>23andme</module>
+    <module>basespace</module>
+    <module>basespace-examples</module>
+    <module>jclouds</module>
   </modules>
 
   <properties>
